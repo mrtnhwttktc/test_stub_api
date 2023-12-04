@@ -5,12 +5,12 @@ A test repository to generate imposter configuration file from an openapi specif
 The following github environment variables and secrets need to be set:
 
 - Secrets
-  - `AWS_ACCESS_KEY_ID` : The access key id for the AWS account
-  - `AWS_SECRET_ACCESS_KEY` : The access key secret for the AWS account
-  - `S3_BUCKET` : S3 Bucket for the Imposter stub api
+  - `AWS_ACCESS_KEY_ID` : The access key id for the AWS account. You can find these value in AWS Parameter Store with the name `/dev/stub-api/infra/cicd_user_access_key`.
+  - `AWS_SECRET_ACCESS_KEY` : The access key secret for the AWS account. You can find these value in AWS Parameter Store with the name `/dev/stub-api/infra/cicd_user_secret_key`.
 - Environment variable
-  - `AWS_DEFAULT_REGION` : The region for the AWS account
-  - `LAMBDA_FUNCTION_NAME` : The Imposter lambda function name
+  - `S3_BUCKET` : S3 Bucket for the Imposter stub api. Value should be `s3://dev-stub-api-imposter-s3-us-west-2/`.
+  - `AWS_DEFAULT_REGION` : The region for the AWS account. Value should be `us-west-2`.
+  - `LAMBDA_FUNCTION_NAME` : The Imposter lambda function name. Value should be `dev-stub-api-imposter-lb-function`.
 
 When launching the workflow, you will be prompted to fill in the following inputs:
 
@@ -18,7 +18,7 @@ When launching the workflow, you will be prompted to fill in the following input
 - `stub_api_name` : The name of the stub api. This will be used for the path of the s3 folder and stub api endpoint.
 - `openapi_file_path` : Path of the OpenAPI specification file.
 
-The github action will do the following:
+This workflow will do the following:
 
 - Automatically generate the configuration file for the Imposter lambda function to run from the OpenAPI specification file.
 - Upload the configuration file for the Imposter lambda function in the S3 bucket.

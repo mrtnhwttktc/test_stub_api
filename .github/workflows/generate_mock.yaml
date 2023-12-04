@@ -13,6 +13,9 @@ on:
       openapi_file_path:
         required: true
         type: string
+      openapi_file_name:
+        required: true
+        type: string
 
 jobs:
   imposter-cli-job:
@@ -32,8 +35,8 @@ jobs:
       - name: Generate New File Path
         id: generate-imposter-file-path
         run: |
-          OPENAPI_FILE_PATH="${{ github.event.inputs.openapi_file_path }}"
-          IMPOSTER_FILE_PATH="${OPENAPI_FILE_PATH%.yaml}-config.yaml"
+          OPENAPI_FILE_NAME="${{ github.event.inputs.openapi_file_name }}"
+          IMPOSTER_FILE_NAME="${OPENAPI_FILE_NAME%.yaml}-config.yaml"
           echo "::set-output name=IMPOSTER_FILE_PATH::$IMPOSTER_FILE_PATH"
       
       - name: Add path to imposter-spec file
@@ -52,7 +55,7 @@ jobs:
 
       - name: Upload to S3
       # Uploads the imposter config file to a folder named after the project name
-        run: aws s3 cp $IMPOSTER_FILE_PATH ${{ secrets.S3_BUCKET }}/${{ github.event.inputs.project_name }}/${{ github.event.inputs.stub_api_name }}/${{ github.event.inputs.project_name }}-stub-api-config.yaml
+        run: aws s3 cp $IMPOSTER_FILE_PATH ${{ env.S3_BUCKET }}/${{ github.event.inputs.project_name }}/${{ github.event.inputs.stub_api_name }}/${{ github.event.inputs.project_name }}-stub-api-config.yaml
         env:
           IMPOSTER_FILE_PATH: ${{ steps.generate-imposter-file-path.outputs.IMPOSTER_FILE_PATH }}
 
