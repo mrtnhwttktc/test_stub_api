@@ -13,6 +13,7 @@ When launching the workflow, you will be prompted to fill in the following input
 - `project_name` : The name of the project for which you are deploying a stub api. This will be used for the path of the s3 folder and stub api endpoint.
 - `stub_api_name` : The name of the stub api. This will be used for the path of the s3 folder and stub api endpoint.
 - `openapi_file_path` : Path of the OpenAPI specification file.
+- `openapi_file_name` : Name of the OpenAPI specification file.
 
 This workflow will do the following:
 
