@@ -17,6 +17,11 @@ on:
         required: true
         type: string
 
+env:
+  AWS_DEFAULT_REGION: us-west-2
+  S3_BUCKET: s3://dev-stub-api-imposter-s3-us-west-2/
+  LAMBDA_FUNCTION_NAME: dev-stub-api-imposter-lb-function
+
 jobs:
   imposter-cli-job:
     runs-on: ubuntu-latest
