@@ -37,14 +37,14 @@ jobs:
         run: |
           OPENAPI_FILE_NAME="${{ github.event.inputs.openapi_file_name }}"
           IMPOSTER_FILE_NAME="${OPENAPI_FILE_NAME%.yaml}-config.yaml"
-          echo "::set-output name=IMPOSTER_FILE_PATH::$IMPOSTER_FILE_PATH"
+          echo "IMPOSTER_FILE_NAME=$IMPOSTER_FILE_NAME" >> $GITHUB_OUTPUT
       
       - name: Add path to imposter-spec file
       # we need to add path: / to the generated imposter config file to have directory based routes.
       # adding an empty string after the colon to escape it, yaml doesn't like spaces after colons in string.
-        run: echo "path:"" /" >> $IMPOSTER_FILE_PATH
+        run: echo "path:"" /" >> $IMPOSTER_FILE_NAME
         env:
-          IMPOSTER_FILE_PATH: ${{ steps.generate-imposter-file-path.outputs.IMPOSTER_FILE_PATH }}
+          IMPOSTER_FILE_NAME: ${{ steps.generate-imposter-file-path.outputs.IMPOSTER_FILE_NAME }}
 
       - name: Setup AWS cli
         uses: aws-actions/configure-aws-credentials@v2
@@ -55,9 +55,9 @@ jobs:
 
       - name: Upload to S3
       # Uploads the imposter config file to a folder named after the project name
-        run: aws s3 cp $IMPOSTER_FILE_PATH ${{ env.S3_BUCKET }}/${{ github.event.inputs.project_name }}/${{ github.event.inputs.stub_api_name }}/${{ github.event.inputs.project_name }}-stub-api-config.yaml
+        run: aws s3 cp $IMPOSTER_FILE_NAME ${{ env.S3_BUCKET }}/${{ github.event.inputs.project_name }}/${{ github.event.inputs.stub_api_name }}/${{ github.event.inputs.project_name }}-stub-api-config.yaml
         env:
-          IMPOSTER_FILE_PATH: ${{ steps.generate-imposter-file-path.outputs.IMPOSTER_FILE_PATH }}
+          IMPOSTER_FILE_NAME: ${{ steps.generate-imposter-file-path.outputs.IMPOSTER_FILE_NAME }}
 
       # In order to use imediatly the new stub api, we need force refresh the lambda function
       # The easiest way is to change a env var for the lambda function
