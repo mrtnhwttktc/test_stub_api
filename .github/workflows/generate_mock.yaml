@@ -6,15 +6,12 @@ on:
     inputs:
       project_name:
         required: true
-        default: 'my_project_name'
         type: string
       stub_api_name:
         required: true
-        default: 'my_stub_api_name'
         type: string
       openapi_file_path:
         required: true
-        default: 'path/to/my/openapi/file.yaml'
         type: string
 
 jobs:
