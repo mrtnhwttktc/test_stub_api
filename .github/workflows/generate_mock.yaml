@@ -81,7 +81,7 @@ jobs:
           aws lambda update-function-configuration \
             --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
             --environment "Variables={
-              DUMMY_FORCE_REFRESH=$NEW_COUNTER
+              DUMMY_FORCE_REFRESH=$NEW_COUNTER,
               IMPOSTER_CONFIG_DIR=${{ env.S3_BUCKET }},
               IMPOSTER_AUTO_BASE_PATH=true,
               IMPOSTER_CONFIG_SCAN_RECURSIVE=true,
