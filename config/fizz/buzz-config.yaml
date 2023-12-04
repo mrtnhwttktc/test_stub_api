@@ -1,0 +1,8 @@
+plugin: openapi
+path: /
+resources:
+- method: GET
+  path: /buzz
+  response:
+    statusCode: 200
+specFile: buzz.yaml

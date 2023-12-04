@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: FizzBuzz
+  version: 1.0.0
+paths:
+  /buzz:
+    get:
+      summary: get FizzBuzz of a number
+      parameters:
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: number to fizzbuzz
+      responses:
+        '200':
+          description: Successful response
+          content: 
+            application/json:
+              example:
+                number: 3
+                solution: fizz

@@ -1,0 +1,12 @@
+plugin: openapi
+resources:
+- method: GET
+  path: /todos
+  response:
+    statusCode: 200
+- method: POST
+  path: /todos
+  response:
+    statusCode: 201
+specFile: todo.yaml
+path: /

@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Weather Information API
+  version: 1.0.0
+paths:
+  /weather:
+    get:
+      summary: Get current weather information
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The name of the city for which to retrieve weather information.
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ISO 3166-1 alpha-2 code of the country (e.g., "US" for the United States).
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                city: "New York"
+                country: "US"
+                temperature: 22.5
+                conditions: "Partly Cloudy"
+                humidity: 65
+  /forecast:
+    get:
+      summary: Get weather forecast
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The name of the city for which to retrieve the weather forecast.
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ISO 3166-1 alpha-2 code of the country (e.g., "US" for the United States).
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                city: "Paris"
+                country: "FR"
+                forecast:
+                  - date: "2023-11-20"
+                    temperature: 18.5
+                    conditions: "Sunny"
+                  - date: "2023-11-21"
+                    temperature: 16.0
+                    conditions: "Partly Cloudy"
+  /todos:
+    get:
+      summary: Get cloud coverage
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The name of the city for which to retrieve the weather forecast.
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ISO 3166-1 alpha-2 code of the country (e.g., "US" for the United States).
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                city: "Paris"
+                country: "FR"
+                forecast:
+                  - date: "2023-11-20"
+                    temperature: 18.5
+                    conditions: "Sunny"
+                  - date: "2023-11-21"
+                    temperature: 16.0
+                    conditions: "Partly Cloudy"
