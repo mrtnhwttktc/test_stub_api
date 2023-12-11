@@ -8,7 +8,9 @@ The following github environment variables and secrets need to be set:
   - `AWS_ACCESS_KEY_ID` : The access key id for the AWS account. You can find these value in AWS Parameter Store with the name `/dev/stub-api/infra/cicd_user_access_key`.
   - `AWS_SECRET_ACCESS_KEY` : The access key secret for the AWS account. You can find these value in AWS Parameter Store with the name `/dev/stub-api/infra/cicd_user_secret_key`.
 
-When launching the workflow, you will be prompted to fill in the following inputs:
+## Generate mock api endpoints
+
+When launching the generate workflow, you will be prompted to fill in the following inputs:
 
 - `project_name` : The name of the project for which you are deploying a stub api. This will be used for the path of the s3 folder and stub api endpoint.
 - `stub_api_name` : The name of the stub api. This will be used for the path of the s3 folder and stub api endpoint.
@@ -24,5 +26,17 @@ This workflow will do the following:
 The stub api should be available on the following URL:
 
 ```(sh)
-https://lambda-function-url/<project_name>/<stub_api_name>/<endpoint>
+https://<url-id>.lambda-url.<region>.on.aws/<project_name>/<stub_api_name>/<endpoint>
 ```
+
+## Remove mock api endpoints
+
+When launching the remove workflow, you will be prompted to fill in the following inputs:
+
+- `project_name` : The name of the project for which you are deploying a stub api. This will be used for the path of the s3 folder and stub api endpoint.
+- `stub_api_name` : The name of the stub api. This will be used for the path of the s3 folder and stub api endpoint.
+
+The workflow will do the following:
+
+- Remove the stub api configuration in the S3 bucket.
+- Force refresh the lambda function to remove the stub api endpoints.

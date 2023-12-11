@@ -1,0 +1,53 @@
+name: Remove stub API endpoints
+run-name: remove-stub-api
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        required: true
+        type: string
+      stub_api_name:
+        required: true
+        type: string
+env:
+  AWS_DEFAULT_REGION: us-west-2
+  S3_BUCKET: s3://dev-stub-api-imposter-s3-us-west-2/
+  LAMBDA_FUNCTION_NAME: dev-stub-api-imposter-lb-function
+
+jobs:
+  remove-stub-api-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup AWS cli
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Delete folder in S3
+        run: aws s3 rm ${{ env.S3_BUCKET }}${{ github.event.inputs.project_name }}/${{ github.event.inputs.stub_api_name }} --recursive
+
+      - name: Get Lambda Current Counter Value
+        id: get-counter
+        run: |
+          COUNTER=$(aws lambda get-function-configuration \
+            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
+            --query 'Environment.Variables.DUMMY_FORCE_REFRESH' \
+            --output text)
+          echo "COUNTER=$COUNTER" >> $GITHUB_OUTPUT
+
+      - name: Increment Counter and update lambda function
+        run: |
+          NEW_COUNTER=$((COUNTER + 1))
+          aws lambda update-function-configuration \
+            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
+            --environment "Variables={
+              DUMMY_FORCE_REFRESH=$NEW_COUNTER,
+              IMPOSTER_CONFIG_DIR=${{ env.S3_BUCKET }},
+              IMPOSTER_AUTO_BASE_PATH=true,
+              IMPOSTER_CONFIG_SCAN_RECURSIVE=true,
+            }"
+        env:
+          COUNTER: ${{ steps.get-counter.outputs.COUNTER }}
