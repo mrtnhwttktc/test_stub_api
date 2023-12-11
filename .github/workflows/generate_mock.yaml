@@ -23,7 +23,7 @@ env:
   LAMBDA_FUNCTION_NAME: dev-stub-api-imposter-lb-function
 
 jobs:
-  imposter-cli-job:
+  deploy-stub-api-job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
