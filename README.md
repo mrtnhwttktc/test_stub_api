@@ -33,8 +33,8 @@ https://<url-id>.lambda-url.<region>.on.aws/<project_name>/<stub_api_name>/<endp
 
 When launching the remove workflow, you will be prompted to fill in the following inputs:
 
-- `project_name` : The name of the project for which you are deploying a stub api. This will be used for the path of the s3 folder and stub api endpoint.
-- `stub_api_name` : The name of the stub api. This will be used for the path of the s3 folder and stub api endpoint.
+- `project_name` : The name of the project for which you deployed a stub api. This was used for the path of the s3 folder and stub api endpoint.
+- `stub_api_name` : The name of the stub api. This was used for the path of the s3 folder and stub api endpoint.
 
 The workflow will do the following:
 
