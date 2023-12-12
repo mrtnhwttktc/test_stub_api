@@ -1,4 +1,6 @@
 openapi: 3.0.0
+cors:
+  allowOrigins: all
 info:
   title: Weather Information API
   version: 1.0.0
